@@ -1,7 +1,5 @@
 package com.adt.adtwebtemplate.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-@RequestMapping("/")
-public class LoginController {
+@RequestMapping
+public class HomeController {
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "views_public/login";
+    @GetMapping
+    public String homePage() {
+        return "views_public/index";
     }
 }

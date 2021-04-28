@@ -10,7 +10,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
-    <form th:action="@{/j_spring_security_check}" method="post">
+    <form th:action="@{/j_spring_security_check}" method="POST">
         <input type="text" name="username">
         <input type="text" name="password">
         <button type="submit" th:text="#{login.btn_login}"></button>

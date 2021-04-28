@@ -36,12 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(259200);
         http.csrf().and().addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/","/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .usernameParameter("username").passwordParameter("password").loginProcessingUrl("/j_spring_security_check").successForwardUrl("/").failureForwardUrl("/login?error=true")
+                .loginProcessingUrl("/j_spring_security_check").loginPage("/login").usernameParameter("username").passwordParameter("password").failureUrl("/login?error=true")
+                .defaultSuccessUrl("/")
                 .and()
                 .exceptionHandling().accessDeniedHandler((req, res, e) -> {
                     res.setStatus(HttpStatus.FORBIDDEN.value());
