@@ -8,6 +8,7 @@ import com.adt.adtwebtemplate.repository.RoleRepository;
 import com.adt.adtwebtemplate.repository.UserRepository;
 import com.adt.adtwebtemplate.services.UserService;
 import com.adt.adtwebtemplate.services.vm.AdminCreateUserVM;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
