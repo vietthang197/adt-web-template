@@ -1,0 +1,37 @@
+server:
+  port: 8086
+spring:
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true # we use Webpack dev server + BrowserSync for livereload
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/adt_web_template
+    username: postgres
+    password: 1234
+    hikari:
+      connection-timeout: 120000       #maximum number of milliseconds that a client will wait for a connection
+      minimum-idle: 1                 #minimum number of idle connections maintained by HikariCP in a connection pool
+      maximum-pool-size: 20            #maximum pool size
+      idle-timeout: 10000             #maximum idle time for connection
+      max-lifetime: 60000              # maximum lifetime in milliseconds of a connection in the pool after it is closed.
+      pool-name: Hikari
+      data-source-properties:
+        v$session.program=Hikari
+  jpa:
+    hibernate:
+      ddl-auto: update
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+      type:
+        descriptor:
+          sql:
+            BasicBinder: TRACE
