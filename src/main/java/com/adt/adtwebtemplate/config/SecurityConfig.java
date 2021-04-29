@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(259200);
+        http.rememberMe().key("remember").tokenValiditySeconds(259200);
         http.csrf().and().addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/","/login").permitAll()
