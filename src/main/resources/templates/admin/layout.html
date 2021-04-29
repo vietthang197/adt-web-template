@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/plugin/font-awesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap-grid.min.css">
     <link rel="stylesheet" type="text/css" href="/plugin/adminte/css/adminlte.min.css">
 </head>
@@ -14,9 +15,12 @@
         <div th:replace="admin/fragment/preloader::preloader"></div>
         <div th:replace="admin/fragment/header::admin_header"></div>
         <div th:replace="admin/fragment/aside::admin_aside"></div>
-        <div layout:fragment="content"></div>
+        <div class="content-wrapper">
+            <div layout:fragment="content"></div>
+        </div>
         <div th:replace="admin/fragment/footer::admin_footer"></div>
     </div>
+
 <script src="/plugin/jquery/jquery.min.js"></script>
 <script src="/plugin/jquery-ui/jquery-ui.min.js"></script>
 <script>
@@ -24,5 +28,6 @@
 </script>
 <script src="/plugin/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/plugin/adminte/js/adminlte.min.js"></script>
+<script src="/plugin/font-awesome/js/pro.min.js"></script>
 </body>
 </html>
