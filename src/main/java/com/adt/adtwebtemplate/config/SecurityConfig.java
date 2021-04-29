@@ -82,6 +82,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers( "/plugin/**", "/favicon.ico");
+                .antMatchers( "/plugin/**", "/favicon.ico", "/public/**");
     }
 }

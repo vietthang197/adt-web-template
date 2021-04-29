@@ -15,6 +15,6 @@ public class HomeController {
 
     @GetMapping
     public String homePage() {
-        return "views_public/index";
+        return "admin/index";
     }
 }

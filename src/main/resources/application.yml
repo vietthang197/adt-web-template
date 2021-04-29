@@ -26,6 +26,14 @@ spring:
   messages:
     basename: i18n/messages
     encoding: UTF-8
+  web:
+    resources:
+      chain:
+        compressed: true
+        cache: true
+        strategy:
+          content:
+            paths: /**
 logging:
   level:
     org:
