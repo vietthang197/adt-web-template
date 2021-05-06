@@ -19,15 +19,16 @@ import java.util.Set;
  */
 
 @Entity
+@Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class Users implements Serializable {
+public class Users extends AbstractAuditingEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    private Long id;
 
     @NotNull
     private String username;
@@ -36,9 +37,12 @@ public class Users implements Serializable {
     private String password;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "userId")},
-            inverseJoinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "name")})
+    @ManyToMany
+    @JoinTable(
+            name = "users_authority",
+            joinColumns = { @JoinColumn(name = "users_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "authority_name", referencedColumnName = "name") }
+    )
     @BatchSize(size = 20)
-    private Set<Role> roles = new HashSet<>();
+    private Set<Authority> authorities = new HashSet<>();
 }

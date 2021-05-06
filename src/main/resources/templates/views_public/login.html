@@ -3,16 +3,16 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{login.title}"></title>
+    <title>Trang chủ</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link rel="stylesheet" href="plugin/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="/public/plugin/font-awesome/css/all.min.css">
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="/plugin/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="/public/plugin/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/plugin/adminte/css/adminlte.min.css">
+    <link rel="stylesheet" href="/public/plugin/adminte/css/adminlte.min.css">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -29,7 +29,7 @@
                     <input type="text" class="form-control" placeholder="Username" name="username">
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                            <span class="fas fa-users"></span>
                         </div>
                     </div>
                 </div>
@@ -80,10 +80,10 @@
     </div>
 </div>
     <!-- jQuery -->
-    <script src="plugin/jquery/jquery.min.js"></script>
+    <script src="/public/plugin/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
-    <script src="plugin/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/plugin/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="/plugin/adminte/js/adminlte.min.js"></script>
+    <script src="/public/plugin/adminte/js/adminlte.min.js"></script>
 </body>
 </html>

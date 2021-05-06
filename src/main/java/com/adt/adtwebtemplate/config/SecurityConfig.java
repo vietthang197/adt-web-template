@@ -12,7 +12,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -33,33 +37,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServicesImpl userDetailsServices;
 
     @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.rememberMe().key("remember").tokenValiditySeconds(259200);
-        http.csrf().and().addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                .antMatchers("/","/login").permitAll()
-                .anyRequest().authenticated()
+    protected void configure(HttpSecurity http) throws Exception {
+        http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(259200);
+        http.csrf().and()
+                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement().sessionConcurrency(concurrencyControlConfigurer -> {
+            concurrencyControlConfigurer.maximumSessions(1);
+            concurrencyControlConfigurer.maxSessionsPreventsLogin(false);
+            concurrencyControlConfigurer.expiredUrl("/");
+        }).and().
+                authorizeRequests()
+                .antMatchers("/**").permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/j_spring_security_check").loginPage("/login").usernameParameter("username").passwordParameter("password").failureUrl("/login?error=true")
                 .defaultSuccessUrl("/")
-                .and()
-                .exceptionHandling().accessDeniedHandler((req, res, e) -> {
-                    res.setStatus(HttpStatus.FORBIDDEN.value());
-                })
-                .and()
-                .logout()
-                .permitAll();
+                .and().logout().invalidateHttpSession(true).deleteCookies("JSESSIONID")
+                .addLogoutHandler(new HeaderWriterLogoutHandler(
+                        new ClearSiteDataHeaderWriter(
+                                ClearSiteDataHeaderWriter.Directive.ALL)))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/").and()
+                .exceptionHandling()
+                .accessDeniedPage("/404");
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServices).passwordEncoder(passwordEncoder());
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
+    @Override
+    public void configure(WebSecurity web) {
+        web
+                .ignoring()
+                .antMatchers("/public/**");
     }
 
     @Bean
@@ -78,10 +87,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CorsFilter(source);
     }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web
-                .ignoring()
-                .antMatchers( "/plugin/**", "/favicon.ico", "/public/**");
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsServices).passwordEncoder(passwordEncoder());
     }
 }
